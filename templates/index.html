@@ -164,95 +164,86 @@
         </div>
         {% endif %}
     </div>
-
-    <!-- Modals -->
-    <div id="dietModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('dietModal')">&times;</span>
-            <h3>Diet Types</h3>
-            <ul>
-                <li><strong>High-Protein, Low-Sugar Diet:</strong> Emphasizes lean protein sources like chicken, fish, beans, and tofu, while limiting added sugars and processed foods.</li>
-                <li><strong>Paleo Diet:</strong> Focuses on whole, unprocessed foods like meat, seafood, vegetables, fruits, and nuts, while avoiding grains, dairy, and processed sugars.</li>
-                <li><strong>Ketogenic Diet:</strong> A low-carb, high-fat diet that forces the body into ketosis, potentially promoting fat loss and muscle growth.</li>
-                <li><strong>Intermittent Fasting:</strong> Alternating periods of eating and fasting, such as the 16/8 method (fasting for 16 hours and eating within an 8-hour window).</li>
-                <li><strong>Mediterranean Diet:</strong> High in fruits, vegetables, whole grains, lean protein, and healthy fats, while limiting red meat and processed foods.</li>
-            </ul>
-        </div>
+<!-- Modals -->
+<div id="dietModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('dietModal')">&times;</span>
+        <h3>Diet Types</h3>
+        <ul>
+            {% for diet in recommendations.diet_types %}
+                <li>{{ diet }}</li>
+            {% endfor %}
+        </ul>
     </div>
+</div>
 
-    <div id="workoutModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('workoutModal')">&times;</span>
-            <h3>Workout Options</h3>
-            <ul>
-                <li><strong>Strength Training:</strong> Resistance exercises with weights or bodyweight to build muscle mass and strength.</li>
-                <li><strong>Cardiovascular Exercise:</strong> Activities like running, cycling, or swimming that elevate the heart rate and improve endurance.</li>
-                <li><strong>Yoga:</strong> Flexibility and strength-building exercises that improve range of motion and reduce stress.</li>
-                <li><strong>Pilates:</strong> Low-impact exercises that focus on core strength, flexibility, and stability.</li>
-                <li><strong>CrossFit:</strong> A high-intensity, functional fitness program that combines weightlifting, cardio, and gymnastics.</li>
-            </ul>
-        </div>
+<div id="workoutModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('workoutModal')">&times;</span>
+        <h3>Workout Options</h3>
+        <ul>
+            {% for workout in recommendations.workouts %}
+                <li>{{ workout }}</li>
+            {% endfor %}
+        </ul>
     </div>
+</div>
 
-    <div id="breakfastModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('breakfastModal')">&times;</span>
-            <h3>Breakfast Ideas</h3>
-            <ul>
-                <li>Omelet with spinach, cheese, and lean ham</li>
-                <li>Greek yogurt with berries, nuts, and granola</li>
-                <li>Scrambled eggs with whole-wheat toast and avocado</li>
-                <li>Smoothie made with protein powder, fruit, and vegetables</li>
-                <li>Quinoa porridge with cinnamon, fruit, and nuts</li>
-            </ul>
-        </div>
+<div id="breakfastModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('breakfastModal')">&times;</span>
+        <h3>Breakfast Ideas</h3>
+        <ul>
+            {% for breakfast in recommendations.breakfasts %}
+                <li>{{ breakfast }}</li>
+            {% endfor %}
+        </ul>
     </div>
+</div>
 
-    <div id="dinnerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('dinnerModal')">&times;</span>
-            <h3>Dinner Options</h3>
-            <ul>
-                <li>Grilled chicken with roasted vegetables and brown rice</li>
-                <li>Salmon with steamed broccoli and quinoa</li>
-                <li>Lentil soup with whole-wheat bread</li>
-                <li>Veggie stir-fry with tofu or chicken</li>
-                <li>Shepherd's pie made with lean ground beef and mashed cauliflower</li>
-            </ul>
-        </div>
+<div id="dinnerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('dinnerModal')">&times;</span>
+        <h3>Dinner Options</h3>
+        <ul>
+            {% for dinner in recommendations.dinners %}
+                <li>{{ dinner }}</li>
+            {% endfor %}
+        </ul>
     </div>
+</div>
 
-    <div id="tipsModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('tipsModal')">&times;</span>
-            <h3>Additional Tips</h3>
-            <ul>
-                <li><strong>Snacks:</strong> Protein bars, hard-boiled eggs, trail mix, fruit, or vegetables</li>
-                <li><strong>Supplements:</strong> Protein powder for muscle recovery, creatine for energy production, or beta-alanine for endurance</li>
-                <li><strong>Hydration:</strong> Drink plenty of water throughout the day, especially before, during, and after workouts</li>
-                <li><strong>Rest:</strong> Aim for 7-9 hours of sleep each night to promote recovery and muscle growth</li>
-            </ul>
-        </div>
+<div id="tipsModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('tipsModal')">&times;</span>
+        <h3>Additional Tips</h3>
+        <ul>
+            {% for tip in recommendations.additional_tips %}
+                <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
     </div>
+</div>
 
-    <script>
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = "block";
-        }
+<script>
+    function showModal(modalId) {
+        document.getElementById(modalId).style.display = "block";
+    }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = "none";
-        }
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
 
-        // Close modals when clicking outside of them
-        window.onclick = function(event) {
-            const modals = document.getElementsByClassName("modal");
-            for (let i = 0; i < modals.length; i++) {
-                if (event.target == modals[i]) {
-                    modals[i].style.display = "none";
-                }
+    // Close modals when clicking outside of them
+    window.onclick = function(event) {
+        const modals = document.getElementsByClassName("modal");
+        for (let i = 0; i < modals.length; i++) {
+            if (event.target == modals[i]) {
+                modals[i].style.display = "none";
             }
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>

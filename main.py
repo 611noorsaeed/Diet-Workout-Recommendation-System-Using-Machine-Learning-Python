@@ -3,7 +3,7 @@ import google.generativeai as genai
 import os
 
 # Set your API key
-os.environ["GOOGLE_API_KEY"] = "AIzaSyCDKFxhW56bIfs7ORISzrkB5NGzv_oVl9c"
+os.environ["GOOGLE_API_KEY"] = "you api here"
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
 app = Flask(__name__)
@@ -11,19 +11,18 @@ app = Flask(__name__)
 # Initialize the model
 model = genai.GenerativeModel("models/gemini-pro")
 
-
 # Function to generate recommendations
 def generate_recommendation(dietary_preferences, fitness_goals, lifestyle_factors, dietary_restrictions,
                             health_conditions, user_query):
     prompt = f"""
-    "Can you suggest a comprehensive plan that includes diet and workout options for better fitness?"
-     for this user:
-     "dietary preferences: {dietary_preferences},
-     "fitness goals: {fitness_goals},
-     "lifestyle factors: {lifestyle_factors},
-     "dietary restrictions: {dietary_restrictions},
-     "health conditions: {health_conditions},
-     "user query: {user_query},
+    Can you suggest a comprehensive plan that includes diet and workout options for better fitness?
+    for this user:
+    dietary preferences: {dietary_preferences},
+    fitness goals: {fitness_goals},
+    lifestyle factors: {lifestyle_factors},
+    dietary restrictions: {dietary_restrictions},
+    health conditions: {health_conditions},
+    user query: {user_query},
 
     Based on the above user’s dietary preferences, fitness goals, lifestyle factors, dietary restrictions, and health conditions provided, create a customized plan that includes:
 
@@ -44,7 +43,6 @@ def generate_recommendation(dietary_preferences, fitness_goals, lifestyle_factor
 
     response = model.generate_content(prompt)
     return response.text if response else "No response from the model."
-
 
 @app.route('/')
 def index():
@@ -75,6 +73,8 @@ def recommendations():
             "additional_tips": []
         }
 
+        print("text : ", recommendations_text)
+
         # Split and map responses based on keywords
         current_section = None
         for line in recommendations_text.splitlines():
@@ -82,7 +82,7 @@ def recommendations():
                 current_section = "diet_types"
             elif "Workout Options:" in line:
                 current_section = "workouts"
-            elif "Breakfast Ideas:" in line:
+            elif "Meal Suggestions:" in line:
                 current_section = "breakfasts"
             elif "Dinner Options:" in line:
                 current_section = "dinners"
@@ -91,8 +91,8 @@ def recommendations():
             elif line.strip() and current_section:
                 recommendations[current_section].append(line.strip())
 
+        print("dict : ", recommendations)
         return render_template('index.html', recommendations=recommendations)
-
 
 if __name__ == "__main__":
     app.run(debug=True)
