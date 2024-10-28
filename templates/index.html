@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Diet and Workout Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #4A90E2;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        .result-buttons {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .result-buttons button {
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px; /* Location of the box */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 5px 0;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Personalized Diet & Workout Planner</h2>
+        <form action="/recommendations" method="POST">
+            <label>Dietary Preferences:</label>
+            <input type="text" name="dietary_preferences" placeholder="e.g., vegetarian, high-protein" required>
+
+            <label>Fitness Goals:</label>
+            <input type="text" name="fitness_goals" placeholder="e.g., weight loss, muscle gain" required>
+
+            <label>Lifestyle Factors:</label>
+            <input type="text" name="lifestyle_factors" placeholder="e.g., active, sedentary" required>
+
+            <label>Dietary Restrictions:</label>
+            <input type="text" name="dietary_restrictions" placeholder="e.g., gluten-free, lactose-intolerant" required>
+
+            <label>Health Conditions:</label>
+            <input type="text" name="health_conditions" placeholder="e.g., diabetes, high blood pressure" required>
+
+            <label>Your Query:</label>
+            <textarea name="user_query" placeholder="Describe your goal briefly" required></textarea>
+
+            <button type="submit">Get Recommendations</button>
+        </form>
+    </div>
+
+    <!-- Results Section -->
+    <div class="container">
+        {% if recommendations %}
+        <h2>Recommendations</h2>
+
+        <!-- Action Buttons -->
+        <div class="result-buttons">
+            <button onclick="showModal('dietModal')">View Diet Types</button>
+            <button onclick="showModal('workoutModal')">View Workout Options</button>
+            <button onclick="showModal('breakfastModal')">View Breakfast Ideas</button>
+            <button onclick="showModal('dinnerModal')">View Dinner Options</button>
+            <button onclick="showModal('tipsModal')">View Additional Tips</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Modals -->
+    <div id="dietModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('dietModal')">&times;</span>
+            <h3>Diet Types</h3>
+            <ul>
+                <li><strong>High-Protein, Low-Sugar Diet:</strong> Emphasizes lean protein sources like chicken, fish, beans, and tofu, while limiting added sugars and processed foods.</li>
+                <li><strong>Paleo Diet:</strong> Focuses on whole, unprocessed foods like meat, seafood, vegetables, fruits, and nuts, while avoiding grains, dairy, and processed sugars.</li>
+                <li><strong>Ketogenic Diet:</strong> A low-carb, high-fat diet that forces the body into ketosis, potentially promoting fat loss and muscle growth.</li>
+                <li><strong>Intermittent Fasting:</strong> Alternating periods of eating and fasting, such as the 16/8 method (fasting for 16 hours and eating within an 8-hour window).</li>
+                <li><strong>Mediterranean Diet:</strong> High in fruits, vegetables, whole grains, lean protein, and healthy fats, while limiting red meat and processed foods.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="workoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('workoutModal')">&times;</span>
+            <h3>Workout Options</h3>
+            <ul>
+                <li><strong>Strength Training:</strong> Resistance exercises with weights or bodyweight to build muscle mass and strength.</li>
+                <li><strong>Cardiovascular Exercise:</strong> Activities like running, cycling, or swimming that elevate the heart rate and improve endurance.</li>
+                <li><strong>Yoga:</strong> Flexibility and strength-building exercises that improve range of motion and reduce stress.</li>
+                <li><strong>Pilates:</strong> Low-impact exercises that focus on core strength, flexibility, and stability.</li>
+                <li><strong>CrossFit:</strong> A high-intensity, functional fitness program that combines weightlifting, cardio, and gymnastics.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="breakfastModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('breakfastModal')">&times;</span>
+            <h3>Breakfast Ideas</h3>
+            <ul>
+                <li>Omelet with spinach, cheese, and lean ham</li>
+                <li>Greek yogurt with berries, nuts, and granola</li>
+                <li>Scrambled eggs with whole-wheat toast and avocado</li>
+                <li>Smoothie made with protein powder, fruit, and vegetables</li>
+                <li>Quinoa porridge with cinnamon, fruit, and nuts</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="dinnerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('dinnerModal')">&times;</span>
+            <h3>Dinner Options</h3>
+            <ul>
+                <li>Grilled chicken with roasted vegetables and brown rice</li>
+                <li>Salmon with steamed broccoli and quinoa</li>
+                <li>Lentil soup with whole-wheat bread</li>
+                <li>Veggie stir-fry with tofu or chicken</li>
+                <li>Shepherd's pie made with lean ground beef and mashed cauliflower</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="tipsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('tipsModal')">&times;</span>
+            <h3>Additional Tips</h3>
+            <ul>
+                <li><strong>Snacks:</strong> Protein bars, hard-boiled eggs, trail mix, fruit, or vegetables</li>
+                <li><strong>Supplements:</strong> Protein powder for muscle recovery, creatine for energy production, or beta-alanine for endurance</li>
+                <li><strong>Hydration:</strong> Drink plenty of water throughout the day, especially before, during, and after workouts</li>
+                <li><strong>Rest:</strong> Aim for 7-9 hours of sleep each night to promote recovery and muscle growth</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Close modals when clicking outside of them
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName("modal");
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

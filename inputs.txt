@@ -1,0 +1,33 @@
+Example Input Values: (1)
+Dietary Preferences: "Vegetarian, high-protein"
+Fitness Goals: "Weight loss, muscle gain"
+Lifestyle Factors: "Active"
+Dietary Restrictions: "Gluten-free, lactose-intolerant"
+Health Conditions: "Type 2 diabetes, high blood pressure"
+User Query: "Can you suggest a comprehensive plan that includes diet and workout options for better fitness?"
+
+
+Example Input Values: (2)
+
+Dietary Preferences: "Mediterranean, low-carb"
+Fitness Goals: "Improving endurance, heart health"
+Lifestyle Factors: "Moderately active"
+Dietary Restrictions: "Dairy-free"
+Health Conditions: "High cholesterol"
+User Query: "I need a plan that helps boost my endurance and maintain a heart-healthy diet."
+Example Input Values: (3)
+
+Dietary Preferences: "Vegan"
+Fitness Goals: "Weight maintenance, toning"
+Lifestyle Factors: "Sedentary, works at a desk"
+Dietary Restrictions: "Nut-free, soy-free"
+Health Conditions: "None"
+User Query: "Can you create a vegan meal plan and workout routine suitable for toning with minimal time available?"
+Example Input Values: (4)
+
+Dietary Preferences: "High-protein, low-sugar"
+Fitness Goals: "Muscle gain, increased flexibility"
+Lifestyle Factors: "Very active, trains daily"
+Dietary Restrictions: "Lactose-free"
+Health Conditions: "None"
+User Query: "I want to build muscle while avoiding lactose and staying flexible. Can you provide a plan?"
